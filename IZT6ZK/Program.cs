@@ -7,25 +7,39 @@ internal class Program
         Console.WriteLine("Hello dear Visitor in our Quiz app!\n");
         Console.WriteLine("You can make a question or check your knowledge\n");
 
-        Commands commands = new Commands();
+
+       
 
         Console.Write("possible commands: ");
 
-        foreach (var item in Commands.commandsDict.Keys)
+        foreach (var item in CommandsDict.commandsDict.Keys)
         {
             Console.Write($"{item} | ");
         }
 
         Console.WriteLine("\n\nHave fun!\n");
 
+
+
         while (true)
         {
             string input = Console.ReadLine();
             if (input != null)
             {
+                foreach (var item in CommandsDict.commandsDict)
+                {
+                    if (input == item.Key)
+                    {
+                        item.Value.execute();
+                    }
+                }
+
+
+
                 try
                 {
-                    Commands.commandsDict[input].Invoke();
+                    
+                    
                 }
                 catch 
                 {

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace IZT6ZK
 {
-    internal interface IQuestions
+    internal interface IDbManager
     {
-
+        //CreateTopic()
     }
 }

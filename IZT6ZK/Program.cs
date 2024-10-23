@@ -1,2 +1,15 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using IZT6ZK;
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        Console.WriteLine("Hello dear Visitor!");
+        Console.WriteLine();
+
+        string input = Console.ReadLine();
+
+        
+
+    }
+}

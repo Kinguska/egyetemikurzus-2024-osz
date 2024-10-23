@@ -14,7 +14,7 @@ namespace IZT6ZK
         public string Answer3 { get; set; }
         public string Answer4 { get; set; }
         public string CorrectAnswer { get; set; }
-        public Topics? Topic { get; set; }
+        public Topics? TopicOfQuestion { get; set; }
 
         public Questions() 
         {

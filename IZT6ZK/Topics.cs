@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IZT6ZK
 {
-    internal class Topics
+    internal record class Topics
     {
         public string TopicName { get; set; }
         public Topics() { }

@@ -10,35 +10,31 @@ namespace IZT6ZK.Commands
     {
         public void execute()
         {
-            Topics topic = new Topics();
+            TopicEntity topic = new TopicEntity();
             topic.TopicName = "cats";
 
-            Questions question = new Questions();
-            question.Question = "Which color cat is the craziest?";
-            question.Answer1 = "black";
-            question.Answer2 = "orange";
-            question.Answer3 = "grey";
-            question.Answer4 = "white";
-            question.CorrectAnswer = "orange";
-            question.TopicOfQuestion = topic;
+            QuestionEntity question1 = new QuestionEntity("Which color cat is the craziest?", "black", "orange", "grey", "white", "orange");
+            question1.Topic = topic;
 
-
-            Console.WriteLine(question.ToString());
+            Console.WriteLine("Write 'quit' if you want to quit this question\n");
+            Console.WriteLine(question1.ToString());
 
             while (true)
             {
                 var inputAnswer = Console.ReadLine();
+
                 if (!string.IsNullOrEmpty(inputAnswer))
                 {
                     inputAnswer = inputAnswer.Trim();
 
-                    if (inputAnswer.Equals(question.CorrectAnswer))
+                    if (inputAnswer.Equals(question1.CorrectAnswer))
                     {
                         Console.WriteLine("Correct answer!\n");
                         break;
                     }
                     if (inputAnswer == "quit")
                     {
+                        Console.WriteLine("You quit \n");
                         break;
                     }
 

@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace IZT6ZK
 {
-    internal record class Topics
+    internal record class TopicEntity
     {
+        public int TopicId { get; set; }
         public string TopicName { get; set; }
-        public Topics() { }
+
+        List<QuestionEntity> Questions { get; set; }
+
+        public TopicEntity() { }
     }
 }

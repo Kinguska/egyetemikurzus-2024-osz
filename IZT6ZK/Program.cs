@@ -1,12 +1,35 @@
 ﻿using System.Drawing;
+using System.Reflection.Metadata;
 
 using IZT6ZK;
 using IZT6ZK.Commands;
+
+using Microsoft.EntityFrameworkCore;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
+        
+
+        using var db = new MyDbContext();
+
+        db.Database.Migrate();
+
+        // Note: This sample requires the database to be created before running.
+
+        Console.WriteLine("Inserting a new blog");
+        db.Add(new QuestionEntity() { Question="Which color cat is the craziest?", Answer1="black", Answer2="orange", Answer3="grey", Answer4="white", CorrectAnswer="orange" });
+        db.SaveChanges();
+
+        Console.WriteLine("Querying for a blog");
+        var question = db.Questions
+            .OrderBy(b => b.QuestionId)
+            .First();
+        Console.WriteLine(question);
+
+
+
         Console.WriteLine("Hello dear Visitor in our Quiz app!\n");
         Console.WriteLine("You can make a question or check your knowledge\n");
 
@@ -16,20 +39,6 @@ internal class Program
 
 
         Console.WriteLine("\n\nHave fun!\n");
-
-
-
-        Topics topic = new Topics();
-        topic.TopicName = "cats";
-
-        Questions question = new Questions();
-        question.Question = "Which color cat is the craziest?";
-        question.Answer1 = "black";
-        question.Answer2 = "orange";
-        question.Answer3 = "grey";
-        question.Answer4 = "white";
-        question.CorrectAnswer = "orange";
-        question.TopicOfQuestion = topic;
 
 
 

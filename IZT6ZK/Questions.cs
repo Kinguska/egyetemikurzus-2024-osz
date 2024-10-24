@@ -20,5 +20,10 @@ namespace IZT6ZK
         {
 
         }
+
+        public override string ToString()
+        {
+            return $"{Question}\n{Answer1}\n{Answer2}\n{Answer3}\n{Answer4}\n";
+        }
     }
 }

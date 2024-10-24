@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IZT6ZK
+namespace IZT6ZK.Commands
 {
-    internal record class StopCommand : ICommands
+    internal record class ExitCommand : ICommands
     {
         public void execute()
         {

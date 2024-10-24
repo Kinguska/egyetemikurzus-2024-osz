@@ -1,4 +1,7 @@
-﻿using IZT6ZK;
+﻿using System.Drawing;
+
+using IZT6ZK;
+using IZT6ZK.Commands;
 
 internal class Program
 {
@@ -7,17 +10,26 @@ internal class Program
         Console.WriteLine("Hello dear Visitor in our Quiz app!\n");
         Console.WriteLine("You can make a question or check your knowledge\n");
 
-
        
+        HelpCommand helpCommand = new HelpCommand();
+        helpCommand.execute();
 
-        Console.Write("possible commands: ");
-
-        foreach (var item in CommandsDict.commandsDict.Keys)
-        {
-            Console.Write($"{item} | ");
-        }
 
         Console.WriteLine("\n\nHave fun!\n");
+
+
+
+        Topics topic = new Topics();
+        topic.TopicName = "cats";
+
+        Questions question = new Questions();
+        question.Question = "Which color cat is the craziest?";
+        question.Answer1 = "black";
+        question.Answer2 = "orange";
+        question.Answer3 = "grey";
+        question.Answer4 = "white";
+        question.CorrectAnswer = "orange";
+        question.TopicOfQuestion = topic;
 
 
 
@@ -26,20 +38,10 @@ internal class Program
             string input = Console.ReadLine();
             if (input != null)
             {
-                foreach (var item in CommandsDict.commandsDict)
-                {
-                    if (input == item.Key)
-                    {
-                        item.Value.execute();
-                    }
-                }
-
-
-
+                
                 try
                 {
-                    
-                    
+                    CommandsDict.commandsDict.First(x => x.Key == input).Value.execute();
                 }
                 catch 
                 {

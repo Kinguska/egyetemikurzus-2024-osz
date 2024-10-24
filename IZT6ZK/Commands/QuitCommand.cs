@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IZT6ZK
+namespace IZT6ZK.Commands
 {
-    internal interface ICommands
+    internal class QuitCommand : ICommands
     {
-        void execute();
+        public void execute()
+        {
+            
+        }
     }
 }

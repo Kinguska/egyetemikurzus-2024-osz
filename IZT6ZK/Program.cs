@@ -31,6 +31,12 @@ internal class Program
 
 
         */
+
+        using (var db = new MyDbContext())
+        {
+            db.Database.Migrate();
+        }
+
         Console.WriteLine("Hello dear Visitor in our Quiz app!\n");
         Console.WriteLine("You can make a question or check your knowledge\n");
 

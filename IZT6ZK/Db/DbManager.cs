@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,23 +11,14 @@ namespace IZT6ZK.Db
 {
     internal class DbManager : IDbManager
     {
-        public MyDbContext DbConnect()
-        {
-            using var Db = new MyDbContext();
-
-            Db.Database.Migrate();
-            return Db;
-        }
-
+        
         public void CreateQuestion(string question, string answer1, string answer2, string answer3, string answer4, string correctAnswer, TopicEntity? topicEntity)
         {
 
             //var Db = DbConnect();
             using var Db = new MyDbContext();
 
-            Db.Database.Migrate();
-
-            Db.Add(new QuestionEntity() { Question = question, Answer1 = answer1, Answer2 = answer2, Answer3 = answer3, Answer4 = answer4, CorrectAnswer = correctAnswer});
+            Db.Questions.Add(new QuestionEntity() { Question = question, Answer1 = answer1, Answer2 = answer2, Answer3 = answer3, Answer4 = answer4, CorrectAnswer = correctAnswer});
             Db.SaveChanges();
         }
 
@@ -34,22 +26,26 @@ namespace IZT6ZK.Db
         {
             using var Db = new MyDbContext();
 
-            Db.Database.Migrate();
-
             Db.Add(new TopicEntity() { TopicName = topicName });
             Db.SaveChanges();
         }
 
        
 
-        public void DeleteQuestion()
+        public void DeleteQuestion(QuestionEntity question)
         {
-            throw new NotImplementedException();
+            using var Db = new MyDbContext();
+
+            Db.Questions.Remove(question);
+            Db.SaveChanges();
         }
 
-        public void DeleteTopic()
+        public void DeleteTopic(TopicEntity topicEntity)
         {
-            throw new NotImplementedException();
+            using var Db = new MyDbContext();
+
+            Db.Topics.Remove(topicEntity);
+            Db.SaveChanges();
         }
 
         public void SelectQuestion()

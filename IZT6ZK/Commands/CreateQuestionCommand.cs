@@ -26,13 +26,14 @@ internal class CreateQuestionCommand : ICommands
         //bool notQuittedYet = true;
         bool loopGoing = true;
 
-        var state = CreateQuestionStateMachine.QuestionReading;
+        var stateQuestionReading = CreateQuestionStateMachine.QuestionReading;
+        var stateQuestionInputAndCW = QuestionInputsStateMachine.QuestionInput;
 
         Console.WriteLine("\nWrite 'quit' if you want to quit\n");
 
         while (loopGoing)
         {
-            switch (state)
+            switch (stateQuestionReading)
             {
                 case CreateQuestionStateMachine.QuestionReading:
                     Console.WriteLine("\nWrite your question: ");
@@ -47,10 +48,10 @@ internal class CreateQuestionCommand : ICommands
                     inputQuestion = inputQuestion.Trim();
                     if (inputQuestion == "quit")
                     {
-                        state = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
                     }
-                    state = CreateQuestionStateMachine.Answer1Reading;
+                    stateQuestionReading = CreateQuestionStateMachine.Answer1Reading;
                     break;
 
                 case CreateQuestionStateMachine.Answer1Reading:
@@ -66,10 +67,10 @@ internal class CreateQuestionCommand : ICommands
 
                     if (inputAnswer1 == "quit")
                     {
-                        state = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
                     }
-                    state = CreateQuestionStateMachine.Answer2Reading;
+                    stateQuestionReading = CreateQuestionStateMachine.Answer2Reading;
                     break;
 
                 case CreateQuestionStateMachine.Answer2Reading:
@@ -85,10 +86,15 @@ internal class CreateQuestionCommand : ICommands
 
                     if (inputAnswer2 == "quit")
                     {
-                        state = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
                     }
-                    state = CreateQuestionStateMachine.Answer3Reading;
+                    else if(inputAnswer2 == inputAnswer1)
+                    {
+                        Console.WriteLine("Please write something else than the other answers!");
+                        break;
+                    }
+                    stateQuestionReading = CreateQuestionStateMachine.Answer3Reading;
                     break;
 
                 case CreateQuestionStateMachine.Answer3Reading:
@@ -104,10 +110,15 @@ internal class CreateQuestionCommand : ICommands
 
                     if (inputAnswer3 == "quit")
                     {
-                        state = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
                     }
-                    state = CreateQuestionStateMachine.Answer4Reading;
+                    else if (inputAnswer3 == inputAnswer2 || inputAnswer3 == inputAnswer1)
+                    {
+                        Console.WriteLine("Please write something else than the other answers!");
+                        break;
+                    }
+                    stateQuestionReading = CreateQuestionStateMachine.Answer4Reading;
                     break;
 
                 case CreateQuestionStateMachine.Answer4Reading:
@@ -123,10 +134,15 @@ internal class CreateQuestionCommand : ICommands
 
                     if (inputAnswer4 == "quit")
                     {
-                        state = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
                     }
-                    state = CreateQuestionStateMachine.CorrectAnswerReading;
+                    else if (inputAnswer4 == inputAnswer3 || inputAnswer4 == inputAnswer2 || inputAnswer4 == inputAnswer1)
+                    {
+                        Console.WriteLine("Please write something else than the other answers!");
+                        break;
+                    }
+                    stateQuestionReading = CreateQuestionStateMachine.CorrectAnswerReading;
                     break;
 
                 case CreateQuestionStateMachine.CorrectAnswerReading:
@@ -142,18 +158,20 @@ internal class CreateQuestionCommand : ICommands
 
                     if (inputCorrectAnswer == "quit")
                     {
-                        state = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
                     }
-                    state = CreateQuestionStateMachine.EverythingWasFineQuestionCreated;
+                    stateQuestionReading = CreateQuestionStateMachine.EverythingWasFineQuestionCreated;
                     break;
 
                 case CreateQuestionStateMachine.EverythingWasFineQuestionCreated:
                     TopicEntity topic = new TopicEntity();
                     topic.TopicName = inputTopicName;
                     dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, topic);
+                    Console.WriteLine("Congratulations, you created a question!\n");
                     loopGoing = false;
                     break;
+
                 case CreateQuestionStateMachine.QuitFromCreateQuestion:
                     Console.WriteLine("You quitted \n");
                     loopGoing = false;

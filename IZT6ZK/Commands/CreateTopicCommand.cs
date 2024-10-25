@@ -21,21 +21,18 @@ internal class CreateTopicCommand : ICommands
             Console.WriteLine("Write your topic's name (for example: cats): ");
             inputTopicName = Console.ReadLine();
 
-            if (!string.IsNullOrEmpty(inputTopicName))
-            {
-                inputTopicName = inputTopicName.Trim();
-
-                if (inputTopicName == "quit")
-                {
-                    Console.WriteLine("You quit \n");
-                    break;
-                }
-                break;
-            }
-            else
+            if (string.IsNullOrEmpty(inputTopicName))
             {
                 Console.WriteLine("Write something please!");
             }
+            inputTopicName = inputTopicName.Trim();
+
+            if (inputTopicName == "quit")
+            {
+                Console.WriteLine("You quit \n");
+                break;
+            }
+            break;
         }
         dbManager.CreateTopic(inputTopicName);
     }

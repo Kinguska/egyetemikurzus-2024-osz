@@ -41,7 +41,8 @@ internal class Program
 
         Console.WriteLine("\n\nHave fun!\n");
 
-
+        DbManager dbManager = new DbManager();
+        dbManager.CreateQuestion("h?", "g", "j", "k", "l", "g", null);
 
         while (true)
         {

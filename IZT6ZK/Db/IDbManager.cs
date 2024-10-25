@@ -9,7 +9,7 @@ namespace IZT6ZK.Db
     internal interface IDbManager
     {
         public MyDbContext DbConnect();
-        public void CreateTopic();
+        public void CreateTopic(string topicName);
         public void SelectTopic();
         public void DeleteTopic();
 

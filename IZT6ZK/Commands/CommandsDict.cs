@@ -15,6 +15,7 @@ namespace IZT6ZK.Commands
             {"help", new HelpCommand() },
             {"start", new StartCommand() },
             {"create question", new CreateQuestionCommand() },
+            {"create topic", new CreateTopicCommand() },
         };
 
     }

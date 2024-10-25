@@ -20,16 +20,24 @@ namespace IZT6ZK.Db
 
         public void CreateQuestion(string question, string answer1, string answer2, string answer3, string answer4, string correctAnswer, TopicEntity? topicEntity)
         {
-            
-            var Db = DbConnect();
 
-            Db.Add(new QuestionEntity() { Question = question, Answer1 = answer1, Answer2 = answer2, Answer3 = answer3, Answer4 = answer4, CorrectAnswer = correctAnswer, Topic = topicEntity});
+            //var Db = DbConnect();
+            using var Db = new MyDbContext();
+
+            Db.Database.Migrate();
+
+            Db.Add(new QuestionEntity() { Question = question, Answer1 = answer1, Answer2 = answer2, Answer3 = answer3, Answer4 = answer4, CorrectAnswer = correctAnswer});
             Db.SaveChanges();
         }
 
-        public void CreateTopic()
+        public void CreateTopic(string topicName)
         {
-            throw new NotImplementedException();
+            using var Db = new MyDbContext();
+
+            Db.Database.Migrate();
+
+            Db.Add(new TopicEntity() { TopicName = topicName });
+            Db.SaveChanges();
         }
 
        

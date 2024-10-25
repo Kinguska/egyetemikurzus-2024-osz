@@ -12,12 +12,15 @@ namespace IZT6ZK.Commands
     {
         public void execute()
         {
+            DbManager dbManager = new DbManager();
+
             string? inputQuestion;
             string? inputAnswer1;
             string? inputAnswer2;
             string? inputAnswer3;
             string? inputAnswer4;
             string? inputCorrectAnswer;
+            string? inputTopicName = null;
 
 
             while (true)
@@ -163,8 +166,10 @@ namespace IZT6ZK.Commands
                     Console.WriteLine("Write something please!");
                 }
             }
-            Console.WriteLine(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer);
 
+            TopicEntity topic = new TopicEntity();
+            topic.TopicName = inputTopicName;
+            dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, topic);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace IZT6ZK.Commands
 {
     internal record class ExitCommand : ICommands
     {
-        public void execute()
+        public void Execute()
         {
             Environment.Exit(0);
         }

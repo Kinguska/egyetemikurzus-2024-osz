@@ -8,6 +8,6 @@ namespace IZT6ZK.Commands
 {
     internal interface ICommands
     {
-        void execute();
+        void Execute();
     }
 }

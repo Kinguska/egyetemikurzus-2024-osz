@@ -8,7 +8,7 @@ namespace IZT6ZK.Commands
 {
     internal class StartCommand : ICommands
     {
-        public void execute()
+        public void Execute()
         {
             TopicEntity topic = new TopicEntity();
             topic.TopicName = "cats";

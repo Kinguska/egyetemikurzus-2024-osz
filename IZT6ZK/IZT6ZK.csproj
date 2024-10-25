@@ -15,4 +15,12 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\vassk\egyetemikurzus-2024-osz\IZT6ZK\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\vassk\egyetemikurzus-2024-osz\IZT6ZK\.editorconfig" />
+  </ItemGroup>
+
 </Project>

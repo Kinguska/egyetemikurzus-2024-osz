@@ -8,7 +8,7 @@ namespace IZT6ZK.Commands
 {
     internal class HelpCommand : ICommands
     {
-        public void execute()
+        public void Execute()
         {
             Console.WriteLine("You can use these commands: ");
             foreach (var command in CommandsDict.commandsDict.Keys)

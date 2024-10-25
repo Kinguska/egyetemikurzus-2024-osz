@@ -34,31 +34,22 @@ internal class Program
         Console.WriteLine("Hello dear Visitor in our Quiz app!\n");
         Console.WriteLine("You can make a question or check your knowledge\n");
 
-       
         HelpCommand helpCommand = new HelpCommand();
-        helpCommand.execute();
-
+        helpCommand.Execute();
 
         Console.WriteLine("\n\nHave fun!\n");
 
-        DbManager dbManager = new DbManager();
-        dbManager.CreateQuestion("h?", "g", "j", "k", "l", "g", null);
-
         while (true)
         {
-            string input = Console.ReadLine();
-            if (input != null)
+            string? input = Console.ReadLine();
+
+            try
             {
-                
-                try
-                {
-                    CommandsDict.commandsDict.First(x => x.Key == input).Value.execute();
-                }
-                catch 
-                {
-                    Console.WriteLine("No such command exists! Try again");
-                }
-                
+                CommandsDict.commandsDict.First(x => x.Key == input).Value.Execute();
+            }
+            catch 
+            {
+                Console.WriteLine("No such command exists! Try again");
             }
         }
 

@@ -14,6 +14,7 @@ namespace IZT6ZK.Commands
             {"exit", new ExitCommand() },
             {"help", new HelpCommand() },
             {"start", new StartCommand() },
+            {"create question", new CreateQuestionCommand() },
         };
 
     }

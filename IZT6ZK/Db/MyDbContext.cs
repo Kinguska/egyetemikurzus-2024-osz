@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace IZT6ZK
+namespace IZT6ZK.Db
 {
     internal class MyDbContext : DbContext
     {

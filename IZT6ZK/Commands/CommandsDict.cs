@@ -17,6 +17,7 @@ internal class CommandsDict
         {"start one topic", new StartJustTheTopicQuestionsCommand()},
         {"create question", new CreateQuestionCommand() },
         {"create topic", new CreateTopicCommand() },
+        //{"update question", new CreateTopicCommand() },
         {"delete topic", new DeleteTopicCommand() },
     };
 

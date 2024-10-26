@@ -62,6 +62,7 @@ internal class StartAllQuestionsCommand : ICommands
             }
 
         }
+        Console.WriteLine("End of the questions");
 
 
     }

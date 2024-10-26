@@ -21,17 +21,17 @@ internal class CreateQuestionCommand : ICommands
         string? inputAnswer3 = null;
         string? inputAnswer4 = null;
         string? inputCorrectAnswer = null;
+
         string? inputWantTopic = null;
         string? inputTopicId = null;
         int wantedTopicId = 0;
 
-        //bool notQuittedYet = true;
         bool loopGoing = true;
 
         var stateQuestionReading = CreateQuestionStateMachine.QuestionReading;
-        var stateQuestionInputAndCW = QuestionInputsStateMachine.QuestionInput;
+        //var stateQuestionInputAndCW = QuestionInputsStateMachine.QuestionInput;
 
-        Console.WriteLine("\nWrite 'quit' if you want to quit\n");
+        Console.WriteLine("\nWrite 'quit' if you want to quit");
 
         while (loopGoing)
         {
@@ -236,160 +236,6 @@ internal class CreateQuestionCommand : ICommands
                     loopGoing = false;
                     break;
             }
-        
-
         }
-        /*
-        while (notQuittedYet)
-        {
-            Console.WriteLine("\nWrite your question: ");
-            inputQuestion = Console.ReadLine();
-
-            if (!string.IsNullOrEmpty(inputQuestion))
-            {
-                inputQuestion = inputQuestion.Trim();
-
-                if (inputQuestion == "quit")
-                {
-                    Console.WriteLine("You quit \n");
-                    notQuittedYet = false;
-                    break;
-                }
-                break;
-            }
-            else
-            {
-                Console.WriteLine("Write something please!");
-            }
-        }
-        while (notQuittedYet)
-        {
-
-            Console.WriteLine("\nWrite the first answer: ");
-            inputAnswer1 = Console.ReadLine();
-
-            if (!string.IsNullOrEmpty(inputAnswer1))
-            {
-                inputAnswer1 = inputAnswer1.Trim();
-
-                if (inputAnswer1 == "quit")
-                {
-                    Console.WriteLine("You quit \n");
-                    notQuittedYet = false;
-                    break;
-                }
-                break;
-            }
-            else
-            {
-                Console.WriteLine("Write something please!");
-            }
-        }
-        while (notQuittedYet)
-        {
-
-            Console.WriteLine("\nWrite the second answer: ");
-            inputAnswer2 = Console.ReadLine();
-
-            if (!string.IsNullOrEmpty(inputAnswer2))
-            {
-                inputAnswer2 = inputAnswer2.Trim();
-
-                if (inputAnswer2 == "quit")
-                {
-                    Console.WriteLine("You quit \n");
-                    notQuittedYet = false;
-                    break;
-                }
-                break;
-            }
-            else
-            {
-                Console.WriteLine("Write something please!");
-            }
-        }
-        while (notQuittedYet)
-        {
-
-            Console.WriteLine("\nWrite the third answer: ");
-            inputAnswer3 = Console.ReadLine();
-
-            if (!string.IsNullOrEmpty(inputAnswer3))
-            {
-                inputAnswer3 = inputAnswer3.Trim();
-
-                if (inputAnswer3 == "quit")
-                {
-                    Console.WriteLine("You quit \n");
-                    notQuittedYet = false;
-                    break;
-                }
-                break;
-            }
-            else
-            {
-                Console.WriteLine("Write something please!");
-            }
-        }
-        while (notQuittedYet)
-        {
-
-            Console.WriteLine("\nWrite the fourth answer: ");
-            inputAnswer4 = Console.ReadLine();
-
-            if (!string.IsNullOrEmpty(inputAnswer4))
-            {
-                inputAnswer4 = inputAnswer4.Trim();
-
-                if (inputAnswer4 == "quit")
-                {
-                    Console.WriteLine("You quit \n");
-                    notQuittedYet = false;
-                    break;
-                }
-                break;
-            }
-            else
-            {
-                Console.WriteLine("Write something please!");
-            }
-        }
-        
-        while (notQuittedYet)
-        {
-            Console.WriteLine("\nWrite the correct answer: ");
-            inputCorrectAnswer = Console.ReadLine();
-
-            if (!string.IsNullOrEmpty(inputCorrectAnswer))
-            {
-                inputCorrectAnswer = inputCorrectAnswer.Trim();
-
-                if (inputCorrectAnswer == "quit")
-                {
-                    Console.WriteLine("You quit \n");
-                    notQuittedYet = false;
-                    break;
-                }
-                
-                if (inputCorrectAnswer != inputAnswer1 && inputCorrectAnswer != inputAnswer2 && inputCorrectAnswer != inputAnswer3 && inputCorrectAnswer != inputAnswer4)
-                {
-                    Console.WriteLine("The correct answer must match one of the given answers!");
-                    continue;
-                }
-                break;
-            }
-            else
-            {
-                Console.WriteLine("Write something please!");
-            }
-        }
-        if (notQuittedYet)
-        {
-            TopicEntity topic = new TopicEntity();
-            topic.TopicName = inputTopicName;
-            dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, topic);
-        }
-        */
-
     }
 }

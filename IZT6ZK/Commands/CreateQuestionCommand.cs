@@ -21,7 +21,9 @@ internal class CreateQuestionCommand : ICommands
         string? inputAnswer3 = null;
         string? inputAnswer4 = null;
         string? inputCorrectAnswer = null;
-        string? inputTopicName = null;
+        string? inputWantTopic = null;
+        string? inputTopicId = null;
+        int wantedTopicId = 0;
 
         //bool notQuittedYet = true;
         bool loopGoing = true;
@@ -161,13 +163,66 @@ internal class CreateQuestionCommand : ICommands
                         stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
                     }
-                    stateQuestionReading = CreateQuestionStateMachine.EverythingWasFineQuestionCreated;
+                    stateQuestionReading = CreateQuestionStateMachine.WantToReadTopic;
                     break;
 
-                case CreateQuestionStateMachine.EverythingWasFineQuestionCreated:
-                    TopicEntity topic = new TopicEntity();
-                    topic.TopicName = inputTopicName;
-                    dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, topic);
+                case CreateQuestionStateMachine.WantToReadTopic:
+                    Console.WriteLine("Do you want to add topic for your question? Yes or No");
+                    inputWantTopic = Console.ReadLine();
+                    if (string.IsNullOrEmpty(inputWantTopic))
+                    {
+                        Console.WriteLine("Write something please!");
+                        break;
+                    }
+                    inputWantTopic = inputWantTopic.Trim().ToLower();
+                    if (inputWantTopic == "quit")
+                    {
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        break;
+                    }
+                    else if (inputWantTopic == "no")
+                    {
+                        stateQuestionReading = CreateQuestionStateMachine.EverythingWasFineQuestionCreate;
+                        break;
+                    }
+                    stateQuestionReading = CreateQuestionStateMachine.TopicReading;
+                    break;
+
+                case CreateQuestionStateMachine.TopicReading:
+                    Console.WriteLine("\nThe possible topics: ");
+                    var allTopics = dbManager.SelectAllTopic();
+                    foreach (var allTopic in allTopics)
+                    {
+                        Console.WriteLine($"{allTopic.TopicId}: {allTopic.TopicName}");
+                    }
+                    Console.WriteLine("\nWrite the id of the topic: ");
+                    inputTopicId = Console.ReadLine();
+
+                    if (string.IsNullOrEmpty(inputTopicId))
+                    {
+                        Console.WriteLine("Write something please!");
+                        break;
+                    }
+                    inputTopicId = inputTopicId.Trim();
+
+                    if (inputTopicId == "quit")
+                    {
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        break;
+                    }
+                    int.TryParse(inputTopicId, out wantedTopicId);
+                    var topicEntity = dbManager.SelectTopic(wantedTopicId);
+                    if (topicEntity != null)
+                    {
+                        stateQuestionReading = CreateQuestionStateMachine.EverythingWasFineQuestionCreate;
+                        break;
+                    }
+                    Console.WriteLine("Please write an existing topic id!");
+                    break;
+                    
+
+                case CreateQuestionStateMachine.EverythingWasFineQuestionCreate:
+                    dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, wantedTopicId);
                     Console.WriteLine("Congratulations, you created a question!\n");
                     loopGoing = false;
                     break;

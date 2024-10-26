@@ -13,6 +13,8 @@ internal enum CreateQuestionStateMachine
     Answer3Reading,
     Answer4Reading,
     CorrectAnswerReading,
+    WantToReadTopic,
+    TopicReading,
     QuitFromCreateQuestion,
-    EverythingWasFineQuestionCreated,
+    EverythingWasFineQuestionCreate,
 }

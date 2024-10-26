@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace IZT6ZK.Commands;
-
-internal interface ICommands
+internal class DeleteQuestionCommand
 {
-    void Execute();
+
 }

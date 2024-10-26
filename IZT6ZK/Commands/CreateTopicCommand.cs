@@ -21,9 +21,10 @@ internal class CreateTopicCommand : ICommands
             Console.WriteLine("Write your topic's name (for example: cats): ");
             inputTopicName = Console.ReadLine();
 
-            if (string.IsNullOrEmpty(inputTopicName))
+            if (string.IsNullOrEmpty(inputTopicName) || string.IsNullOrWhiteSpace(inputTopicName))
             {
                 Console.WriteLine("Write something please!");
+                continue;
             }
             inputTopicName = inputTopicName.Trim();
 
@@ -32,8 +33,9 @@ internal class CreateTopicCommand : ICommands
                 Console.WriteLine("You quit \n");
                 break;
             }
+            dbManager.CreateTopic(inputTopicName);
+            Console.WriteLine("Congratulations, you created a topic!\n");
             break;
         }
-        dbManager.CreateTopic(inputTopicName);
     }
 }

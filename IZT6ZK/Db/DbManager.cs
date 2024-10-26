@@ -45,6 +45,7 @@ internal class DbManager : IDbManager
 
         Db.Topics.Remove(topicEntity);
         Db.SaveChanges();
+        //összekapcsolt kulcs esetén még nem lehet törölni
     }
 
     public List<QuestionEntity> SelectAllQuestions()

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using IZT6ZK.Db;
+using IZT6ZK.StateMachine;
 
 namespace IZT6ZK.Commands;
 
@@ -91,7 +92,7 @@ internal class CreateQuestionCommand : ICommands
                         stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
                     }
-                    else if(inputAnswer2 == inputAnswer1)
+                    else if (inputAnswer2 == inputAnswer1)
                     {
                         Console.WriteLine("Please write something else than the other answers!");
                         break;
@@ -214,15 +215,21 @@ internal class CreateQuestionCommand : ICommands
                     var topicEntity = dbManager.SelectTopic(wantedTopicId);
                     if (topicEntity != null)
                     {
-                        stateQuestionReading = CreateQuestionStateMachine.EverythingWasFineQuestionCreate;
+                        stateQuestionReading = CreateQuestionStateMachine.EverythingWasFineQuestionCreateWithTopic;
                         break;
                     }
                     Console.WriteLine("Please write an existing topic id!");
                     break;
-                    
+
+
+                case CreateQuestionStateMachine.EverythingWasFineQuestionCreateWithTopic:
+                    dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, wantedTopicId);
+                    Console.WriteLine("Congratulations, you created a question!\n");
+                    loopGoing = false;
+                    break;
 
                 case CreateQuestionStateMachine.EverythingWasFineQuestionCreate:
-                    dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, wantedTopicId);
+                    dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, null);
                     Console.WriteLine("Congratulations, you created a question!\n");
                     loopGoing = false;
                     break;
@@ -238,4 +245,11 @@ internal class CreateQuestionCommand : ICommands
             }
         }
     }
+    /*
+    string InputAndCWState(CreateQuestionStateMachine createQuestionStateMachine) =>
+        createQuestionStateMachine switch
+        {
+            CreateQuestionStateMachine.QuestionReading => Console.WriteLine()
+        }
+    */
 }

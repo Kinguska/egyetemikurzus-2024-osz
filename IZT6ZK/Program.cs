@@ -51,9 +51,10 @@ internal class Program
 
             try
             {
+                input = input.Trim();
                 CommandsDict.commandsDict.First(x => x.Key == input).Value.Execute();
             }
-            catch 
+            catch
             {
                 Console.WriteLine("No such command exists! Try again");
             }

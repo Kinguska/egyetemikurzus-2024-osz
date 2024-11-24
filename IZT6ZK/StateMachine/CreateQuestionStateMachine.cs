@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IZT6ZK;
+namespace IZT6ZK.StateMachine;
 internal enum CreateQuestionStateMachine
 {
     QuestionReading,
@@ -16,5 +16,6 @@ internal enum CreateQuestionStateMachine
     WantToReadTopic,
     TopicReading,
     QuitFromCreateQuestion,
+    EverythingWasFineQuestionCreateWithTopic,
     EverythingWasFineQuestionCreate,
 }

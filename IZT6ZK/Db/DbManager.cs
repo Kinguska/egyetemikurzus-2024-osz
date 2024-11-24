@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-
+using IZT6ZK.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IZT6ZK.Db;
@@ -12,7 +12,7 @@ namespace IZT6ZK.Db;
 internal class DbManager : IDbManager
 {
     
-    public void CreateQuestion(string question, string answer1, string answer2, string answer3, string answer4, string correctAnswer, int topicId)
+    public void CreateQuestion(string question, string answer1, string answer2, string answer3, string answer4, string correctAnswer, int? topicId)
     {
 
         using var Db = new MyDbContext();
@@ -89,13 +89,17 @@ internal class DbManager : IDbManager
         return topic;
     }
 
-    public void UpdateQuestion()
+    public void UpdateQuestion(QuestionEntity questionEntity)
     {
-        throw new NotImplementedException();
+        using var Db = new MyDbContext();
+        var questionTopic = Db.Questions.Update(questionEntity);
+        Db.SaveChanges();
     }
 
-    public void UpdateTopic()
+    public void UpdateTopic(TopicEntity topicEntity)
     {
-        throw new NotImplementedException();
+        using var Db = new MyDbContext();
+        var topic = Db.Topics.Update(topicEntity);
+        Db.SaveChanges();
     }
 }

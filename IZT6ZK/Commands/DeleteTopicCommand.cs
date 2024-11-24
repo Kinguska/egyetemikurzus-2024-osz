@@ -22,7 +22,8 @@ internal class DeleteTopicCommand : ICommands
             {
                 Console.WriteLine($"{allTopic.TopicId}: {allTopic.TopicName}");
             }
-            Console.WriteLine("Write the topic's id, you want to delete: ");
+
+            Console.WriteLine("\nWrite the topic's id, you want to delete: ");
             inputTopicId = Console.ReadLine();
 
             if (string.IsNullOrEmpty(inputTopicId) || string.IsNullOrWhiteSpace(inputTopicId))
@@ -34,7 +35,7 @@ internal class DeleteTopicCommand : ICommands
 
             if (inputTopicId == "quit")
             {
-                Console.WriteLine("You quitted \n");
+                Console.WriteLine("\nYou quitted \n");
                 break;
             }
             int.TryParse(inputTopicId, out var topicId);

@@ -20,9 +20,8 @@ internal class StartJustTheTopicQuestionsCommand : ICommands
         bool outerLoopGoing = true;
         bool innerLoopGoing = true;
 
-        Console.WriteLine("Write 'quit' if you want to quit this question\n");
-
-        Console.WriteLine("Write 'quit all' if you want to quit all of the questions\n");
+        Console.WriteLine("\nWrite 'quit' if you want to quit this question.");
+        Console.WriteLine("Write 'quit all' if you want to quit all of the questions.");
 
         while (outerLoopGoing)
         {
@@ -87,23 +86,23 @@ internal class StartJustTheTopicQuestionsCommand : ICommands
                     }
                     if (inputAnswer == "quit")
                     {
-                        Console.WriteLine("You quitted the question\n");
+                        Console.WriteLine("You quitted the question!\n");
                         break;
                     }
                     if (inputAnswer == "quit all")
                     {
-                        Console.WriteLine("You quitted  all of the questions\n");
+                        Console.WriteLine("You quitted  all of the questions!\n");
                         outerLoopGoing = false;
                         break;
                     }
-                    Console.WriteLine("Incorrect answer, try again!");
+                    Console.WriteLine("Incorrect answer, try again!\n");
                     continue;
                 }
             }
             outerLoopGoing = false;
             break;
-            
+
         }
-        Console.WriteLine("End of the questions");
+        Console.WriteLine("End of the questions.\n");
     }
 }

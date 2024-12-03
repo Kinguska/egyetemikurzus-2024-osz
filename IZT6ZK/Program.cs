@@ -11,34 +11,13 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        /*
-
-        using var db = new MyDbContext();
-
-        db.Database.Migrate();
-
-        
-
-        Console.WriteLine("Inserting a new blog");
-        db.Add(new QuestionEntity() { Question="Which color cat is the craziest?", Answer1="black", Answer2="orange", Answer3="grey", Answer4="white", CorrectAnswer="orange" });
-        db.SaveChanges();
-
-        Console.WriteLine("Querying for a blog");
-        var question = db.Questions
-            .OrderBy(b => b.QuestionId)
-            .First();
-        Console.WriteLine(question);
-
-
-        */
-
         using (var db = new MyDbContext())
         {
             db.Database.Migrate();
         }
 
         Console.WriteLine("Hello dear Visitor in our Quiz app!\n");
-        Console.WriteLine("You can make a question or check your knowledge\n");
+        Console.WriteLine("You can make a question or check your knowledge.\n");
 
         HelpCommand helpCommand = new HelpCommand();
         helpCommand.Execute();
@@ -47,6 +26,7 @@ internal class Program
 
         while (true)
         {
+            //cw főkonzol
             string? input = Console.ReadLine();
 
             try
@@ -56,12 +36,8 @@ internal class Program
             }
             catch
             {
-                Console.WriteLine("No such command exists! Try again");
+                Console.WriteLine("No such command exists! Try again! (Write 'help', if you want to see the commands!)");
             }
         }
-
-
     }
-
-
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using IZT6ZK.Assists;
 using IZT6ZK.Db;
 using IZT6ZK.StateMachine;
 
@@ -14,7 +14,8 @@ internal class CreateQuestionCommand : ICommands
     public void Execute()
     {
         DbManager dbManager = new DbManager();
-
+        ReadInCW readInCW = new ReadInCW();
+        //tömb vagy dict?
         string? input = null;
         string? inputQuestion = null;
         string? inputAnswer1 = null;
@@ -30,24 +31,25 @@ internal class CreateQuestionCommand : ICommands
         bool loopGoing = true;
 
         var stateQuestionReading = CreateQuestionStateMachine.QuestionReading;
-        //var stateQuestionInputAndCW = QuestionInputsStateMachine.QuestionInput;
 
-        Console.WriteLine("\nWrite 'quit' if you want to quit");
+        Console.WriteLine("\nWrite 'quit' if you want to quit.");
 
         while (loopGoing)
         {
             switch (stateQuestionReading)
             {
                 case CreateQuestionStateMachine.QuestionReading:
-                    Console.WriteLine("\nWrite your question: ");
-                    inputQuestion = Console.ReadLine();
+                    //Beolvasas("question");
+                    //Console.WriteLine("\nWrite your question: ");
+                    //inputQuestion = Console.ReadLine();
+                    inputQuestion = readInCW.ReadAndWrite("your question");
 
                     if (string.IsNullOrEmpty(inputQuestion))
                     {
                         Console.WriteLine("Write something please!");
                         break;
                     }
-
+                    //validálás, esetleg még egy validálás fvg quit all-lal
                     inputQuestion = inputQuestion.Trim();
                     if (inputQuestion == "quit")
                     {
@@ -164,11 +166,17 @@ internal class CreateQuestionCommand : ICommands
                         stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
                     }
-                    stateQuestionReading = CreateQuestionStateMachine.WantToReadTopic;
+                    else if (inputCorrectAnswer == inputAnswer1 || inputCorrectAnswer == inputAnswer2 
+                        || inputCorrectAnswer == inputAnswer3 || inputCorrectAnswer == inputAnswer4)
+                    {
+                        stateQuestionReading = CreateQuestionStateMachine.WantToReadTopic;
+                        break;
+                    }
+                    Console.WriteLine("Please write a correct answer from the previous answers!");
                     break;
 
                 case CreateQuestionStateMachine.WantToReadTopic:
-                    Console.WriteLine("Do you want to add topic for your question? Yes or No");
+                    Console.WriteLine("\nDo you want to add topic for your question? Yes or No");
                     inputWantTopic = Console.ReadLine();
                     if (string.IsNullOrEmpty(inputWantTopic))
                     {
@@ -224,18 +232,18 @@ internal class CreateQuestionCommand : ICommands
 
                 case CreateQuestionStateMachine.EverythingWasFineQuestionCreateWithTopic:
                     dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, wantedTopicId);
-                    Console.WriteLine("Congratulations, you created a question!\n");
+                    Console.WriteLine("\nCongratulations, you created a question!\n");
                     loopGoing = false;
                     break;
 
                 case CreateQuestionStateMachine.EverythingWasFineQuestionCreate:
                     dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, null);
-                    Console.WriteLine("Congratulations, you created a question!\n");
+                    Console.WriteLine("\nCongratulations, you created a question!\n");
                     loopGoing = false;
                     break;
 
                 case CreateQuestionStateMachine.QuitFromCreateQuestion:
-                    Console.WriteLine("You quitted \n");
+                    Console.WriteLine("You quitted! \n");
                     loopGoing = false;
                     break;
 

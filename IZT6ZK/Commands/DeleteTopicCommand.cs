@@ -12,7 +12,7 @@ internal class DeleteTopicCommand : ICommands
     {
         DbManager dbManager = new DbManager();
         string? inputTopicId;
-        Console.WriteLine("\nWrite 'quit' if you want to quit\n");
+        Console.WriteLine("\nWrite 'quit' if you want to quit.");
 
         while (true)
         {
@@ -35,16 +35,33 @@ internal class DeleteTopicCommand : ICommands
 
             if (inputTopicId == "quit")
             {
-                Console.WriteLine("\nYou quitted \n");
+                Console.WriteLine("You quitted! \n");
                 break;
             }
             int.TryParse(inputTopicId, out var topicId);
             var topicEntity = dbManager.SelectTopic(topicId);
             if (topicEntity != null)
             {
-                dbManager.DeleteTopic(topicEntity);
-                Console.WriteLine("Congratulations, you deleted the topic!\n");
-                break;
+                Console.WriteLine("Are you sure? Yes or No");
+                var yesOrNo = Console.ReadLine();
+                yesOrNo = yesOrNo.Trim().ToLower();
+
+                if (yesOrNo == "no")
+                {
+                    Console.WriteLine("You didn't delete the topic!");
+                    continue;
+                }
+                else if (yesOrNo == "yes")
+                {
+                    dbManager.DeleteTopic(topicEntity);
+                    Console.WriteLine("\nCongratulations, you deleted the topic!\n");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Please write 'yes' or 'no'!");
+                    continue;
+                }
             }
             Console.WriteLine("Please write an existing topic id!");
             continue;

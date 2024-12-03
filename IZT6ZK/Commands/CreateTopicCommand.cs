@@ -14,11 +14,11 @@ internal class CreateTopicCommand : ICommands
     {
         DbManager dbManager = new DbManager();
         string? inputTopicName;
-        Console.WriteLine("\nWrite 'quit' if you want to quit\n");
+        Console.WriteLine("\nWrite 'quit' if you want to quit.");
 
         while (true)
         {
-            Console.WriteLine("Write your topic's name (for example: cats): ");
+            Console.WriteLine("\nWrite your topic's name (for example: cats): ");
             inputTopicName = Console.ReadLine();
 
             if (string.IsNullOrEmpty(inputTopicName) || string.IsNullOrWhiteSpace(inputTopicName))
@@ -33,9 +33,16 @@ internal class CreateTopicCommand : ICommands
                 Console.WriteLine("You quit \n");
                 break;
             }
+            var allTopics = dbManager.SelectAllTopic();
+            if (allTopics.FirstOrDefault(x => x.TopicName.ToLower() == inputTopicName.ToLower()) is not null)
+            {
+                Console.WriteLine("This topic already exists!");
+                continue;
+            }
             dbManager.CreateTopic(inputTopicName);
-            Console.WriteLine("Congratulations, you created a topic!\n");
+            Console.WriteLine("\nCongratulations, you created a topic!\n");
             break;
+
         }
     }
 }

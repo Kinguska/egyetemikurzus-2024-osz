@@ -12,7 +12,7 @@ internal class UpdateTopic : ICommands
     {
         var dbManager = new DbManager();
         string? inputTopic;
-        Console.WriteLine("\nWrite 'quit' if you want to quit\n");
+        Console.WriteLine("\nWrite 'quit' if you want to quit.");
 
         while (true)
         {
@@ -23,7 +23,7 @@ internal class UpdateTopic : ICommands
                 Console.WriteLine($"{allTopic.TopicId}: {allTopic.TopicName}");
             }
 
-            Console.WriteLine("Write the topic's id, you want to update: ");
+            Console.WriteLine("\nWrite the topic's id, you want to update: ");
             inputTopic = Console.ReadLine();
 
             if (string.IsNullOrEmpty(inputTopic) || string.IsNullOrWhiteSpace(inputTopic))
@@ -35,7 +35,7 @@ internal class UpdateTopic : ICommands
 
             if (inputTopic == "quit")
             {
-                Console.WriteLine("You quitted \n");
+                Console.WriteLine("You quitted! \n");
                 break;
             }
             int.TryParse(inputTopic, out var topicId);
@@ -50,14 +50,21 @@ internal class UpdateTopic : ICommands
                     continue;
                 }
                 newTopicName = newTopicName.Trim();
+
                 if (newTopicName == "quit")
                 {
-                    Console.WriteLine("You quitted \n");
+                    Console.WriteLine("You quitted! \n");
                     break;
+                }
+
+                if (allTopics.FirstOrDefault(x => x.TopicName.ToLower() == newTopicName.ToLower()) is not null && topicEntity.TopicName.ToLower() != newTopicName.ToLower())
+                {
+                    Console.WriteLine("\nThis topic already exists!");
+                    continue;
                 }
                 topicEntity.TopicName = newTopicName;
                 dbManager.UpdateTopic(topicEntity);
-                Console.WriteLine("Congratulations, you updated the topic!\n");
+                Console.WriteLine("\nCongratulations, you updated the topic!\n");
                 break;
             }
             Console.WriteLine("Please write an existing topic id!");

@@ -12,7 +12,7 @@ internal class UpdateQuestionsTopic : ICommands
     {
         var dbManager = new DbManager();
         string? inputQuestionId;
-        Console.WriteLine("\nWrite 'quit' if you want to quit\n");
+        Console.WriteLine("\nWrite 'quit' if you want to quit.");
 
         while (true)
         {
@@ -35,7 +35,7 @@ internal class UpdateQuestionsTopic : ICommands
 
             if (inputQuestionId == "quit")
             {
-                Console.WriteLine("\nYou quitted \n");
+                Console.WriteLine("You quitted! \n");
                 break;
             }
             int.TryParse(inputQuestionId, out var questionId);
@@ -59,14 +59,14 @@ internal class UpdateQuestionsTopic : ICommands
                 }
                 newTopicId = newTopicId.Trim();
                 if (newTopicId == "quit") {
-                    Console.WriteLine("You quitted \n");
+                    Console.WriteLine("You quitted! \n");
                     break;
                 }
                 if (newTopicId == "null")
                 {
                     questionEntity.TopicId = null;
                     dbManager.UpdateQuestion(questionEntity);
-                    Console.WriteLine("Congratulations, you updated the question's topic!\n");
+                    Console.WriteLine("\nCongratulations, you updated the question's topic!\n");
                     break;
                 }
                 int.TryParse(newTopicId, out var topicId);
@@ -75,7 +75,7 @@ internal class UpdateQuestionsTopic : ICommands
                 {
                     questionEntity.TopicId = topicId;
                     dbManager.UpdateQuestion(questionEntity);
-                    Console.WriteLine("Congratulations, you updated the question's topic!\n");
+                    Console.WriteLine("\nCongratulations, you updated the question's topic!\n");
                     break;
                 }
                 Console.WriteLine("Please write an existing topic id!");

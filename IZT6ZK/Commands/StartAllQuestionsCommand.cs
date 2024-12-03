@@ -15,9 +15,8 @@ internal class StartAllQuestionsCommand : ICommands
         var allQuestions = dbManager.SelectAllQuestions();
         bool loopGoing = true;
 
-        Console.WriteLine("Write 'quit' if you want to quit this question\n");
-
-        Console.WriteLine("Write 'quit all' if you want to quit all of the questions\n");
+        Console.WriteLine("\nWrite 'quit' if you want to quit this question.");
+        Console.WriteLine("Write 'quit all' if you want to quit all of the questions.\n");
 
         foreach (var question in allQuestions)
         {
@@ -47,22 +46,22 @@ internal class StartAllQuestionsCommand : ICommands
                 }
                 if (inputAnswer == "quit")
                 {
-                    Console.WriteLine("You quitted the question\n");
+                    Console.WriteLine("\nYou quitted the question!\n");
                     break;
                 }
                 if (inputAnswer == "quit all")
                 {
-                    Console.WriteLine("You quitted  all of the questions\n");
+                    Console.WriteLine("\nYou quitted  all of the questions!\n");
                     loopGoing = false;
                     break;
                 }
 
-                Console.WriteLine("Incorrect answer, try again!");
+                Console.WriteLine("Incorrect answer, try again!\n");
                 continue;
             }
 
         }
-        Console.WriteLine("End of the questions");
+        Console.WriteLine("End of the questions.\n");
 
 
     }

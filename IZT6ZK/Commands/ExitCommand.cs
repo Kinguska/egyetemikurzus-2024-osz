@@ -10,6 +10,7 @@ internal record class ExitCommand : ICommands
 {
     public void Execute()
     {
+        Console.WriteLine("Goodbye dear Visitor! Have a nice day!");
         Environment.Exit(0);
     }
 }

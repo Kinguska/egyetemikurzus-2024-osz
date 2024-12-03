@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace IZT6ZK.Models;
 
+//immutable type!!!! update?
 internal record class TopicEntity
 {
     public int TopicId { get; set; }

@@ -14,15 +14,15 @@ internal class CreateQuestionCommand : ICommands
     public void Execute()
     {
         DbManager dbManager = new DbManager();
-        ReadInCW readInCW = new ReadInCW();
         //tömb vagy dict?
         string? input = null;
-        string? inputQuestion = null;
+        /*string? inputQuestion = null;
         string? inputAnswer1 = null;
         string? inputAnswer2 = null;
         string? inputAnswer3 = null;
         string? inputAnswer4 = null;
-        string? inputCorrectAnswer = null;
+        string? inputCorrectAnswer = null;*/
+        List<string>? inputQuestionAndAnswers = new List<string>();
 
         string? inputWantTopic = null;
         string? inputTopicId = null;
@@ -32,7 +32,7 @@ internal class CreateQuestionCommand : ICommands
 
         var stateQuestionReading = CreateQuestionStateMachine.QuestionReading;
 
-        Console.WriteLine("\nWrite 'quit' if you want to quit.");
+        ConsoleHelper.WriteQuit();
 
         while (loopGoing)
         {
@@ -42,9 +42,9 @@ internal class CreateQuestionCommand : ICommands
                     //Beolvasas("question");
                     //Console.WriteLine("\nWrite your question: ");
                     //inputQuestion = Console.ReadLine();
-                    inputQuestion = readInCW.ReadAndWrite("your question");
+                    input = ConsoleHelper.ReadAndWrite("your question");
 
-                    if (string.IsNullOrEmpty(inputQuestion))
+                    /*if (string.IsNullOrEmpty(inputQuestion))
                     {
                         Console.WriteLine("Write something please!");
                         break;
@@ -55,14 +55,26 @@ internal class CreateQuestionCommand : ICommands
                     {
                         stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
+                    }*/
+                    input = ValidateInputs.ValidateInputsIfEmptyOrQuit(input);
+                    if (input == String.Empty)
+                    {
+                        break;
                     }
+                    else if(input == "quit")
+                    {
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        break;
+                    }
+                    inputQuestionAndAnswers.Add(input);
                     stateQuestionReading = CreateQuestionStateMachine.Answer1Reading;
                     break;
 
                 case CreateQuestionStateMachine.Answer1Reading:
-                    Console.WriteLine("\nWrite the first answer: ");
-                    inputAnswer1 = Console.ReadLine();
-
+                    input = ConsoleHelper.ReadAndWrite("the first answer");
+                    //Console.WriteLine("\nWrite the first answer: ");
+                    //input = Console.ReadLine();
+                    /*
                     if (string.IsNullOrEmpty(inputAnswer1))
                     {
                         Console.WriteLine("Write something please!");
@@ -74,12 +86,34 @@ internal class CreateQuestionCommand : ICommands
                     {
                         stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
+                    }*/
+                    input = ValidateInputs.ValidateInputsIfEmptyOrQuit(input);
+                    if (input == String.Empty)
+                    {
+                        break;
                     }
+                    else if (input == "quit")
+                    {
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        break;
+                    }
+                    inputQuestionAndAnswers.Add(input);
                     stateQuestionReading = CreateQuestionStateMachine.Answer2Reading;
                     break;
 
                 case CreateQuestionStateMachine.Answer2Reading:
-                    Console.WriteLine("\nWrite the second answer: ");
+                    input = ConsoleHelper.ReadAndWrite("the second answer");
+                    input = ValidateInputs.ValidateInputsIfEmptyOrQuit(input);
+                    if (input == String.Empty)
+                    {
+                        break;
+                    }
+                    else if (input == "quit")
+                    {
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        break;
+                    }
+                    /*Console.WriteLine("\nWrite the second answer: ");
                     inputAnswer2 = Console.ReadLine();
 
                     if (string.IsNullOrEmpty(inputAnswer2))
@@ -93,8 +127,13 @@ internal class CreateQuestionCommand : ICommands
                     {
                         stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
-                    }
-                    else if (inputAnswer2 == inputAnswer1)
+                    }*/
+                    /*else if (inputAnswer2 == inputAnswer1)
+                    {
+                        Console.WriteLine("Please write something else than the other answers!");
+                        break;
+                    }*/
+                    else if(inputQuestionAndAnswers.Contains(input))
                     {
                         Console.WriteLine("Please write something else than the other answers!");
                         break;
@@ -103,7 +142,7 @@ internal class CreateQuestionCommand : ICommands
                     break;
 
                 case CreateQuestionStateMachine.Answer3Reading:
-                    Console.WriteLine("\nWrite the third answer: ");
+                    /*Console.WriteLine("\nWrite the third answer: ");
                     inputAnswer3 = Console.ReadLine();
 
                     if (string.IsNullOrEmpty(inputAnswer3))
@@ -122,12 +161,28 @@ internal class CreateQuestionCommand : ICommands
                     {
                         Console.WriteLine("Please write something else than the other answers!");
                         break;
+                    }*/
+                    input = ConsoleHelper.ReadAndWrite("the third answer");
+                    input = ValidateInputs.ValidateInputsIfEmptyOrQuit(input);
+                    if (input == String.Empty)
+                    {
+                        break;
+                    }
+                    else if (input == "quit")
+                    {
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        break;
+                    }
+                    else if (inputQuestionAndAnswers.Contains(input))
+                    {
+                        Console.WriteLine("Please write something else than the other answers!");
+                        break;
                     }
                     stateQuestionReading = CreateQuestionStateMachine.Answer4Reading;
                     break;
 
                 case CreateQuestionStateMachine.Answer4Reading:
-                    Console.WriteLine("\nWrite the fourth answer: ");
+                    /*Console.WriteLine("\nWrite the fourth answer: ");
                     inputAnswer4 = Console.ReadLine();
 
                     if (string.IsNullOrEmpty(inputAnswer4))
@@ -146,12 +201,28 @@ internal class CreateQuestionCommand : ICommands
                     {
                         Console.WriteLine("Please write something else than the other answers!");
                         break;
+                    }*/
+                    input = ConsoleHelper.ReadAndWrite("the fourth answer");
+                    input = ValidateInputs.ValidateInputsIfEmptyOrQuit(input);
+                    if (input == String.Empty)
+                    {
+                        break;
+                    }
+                    else if (input == "quit")
+                    {
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        break;
+                    }
+                    else if (inputQuestionAndAnswers.Contains(input))
+                    {
+                        Console.WriteLine("Please write something else than the other answers!");
+                        break;
                     }
                     stateQuestionReading = CreateQuestionStateMachine.CorrectAnswerReading;
                     break;
 
                 case CreateQuestionStateMachine.CorrectAnswerReading:
-                    Console.WriteLine("\nWrite the correct answer: ");
+                    /*Console.WriteLine("\nWrite the correct answer: ");
                     inputCorrectAnswer = Console.ReadLine();
 
                     if (string.IsNullOrEmpty(inputCorrectAnswer))
@@ -171,20 +242,48 @@ internal class CreateQuestionCommand : ICommands
                     {
                         stateQuestionReading = CreateQuestionStateMachine.WantToReadTopic;
                         break;
+                    }*/
+                    input = ConsoleHelper.ReadAndWrite("the correct answer");
+                    input = ValidateInputs.ValidateInputsIfEmptyOrQuit(input);
+                    if (input == String.Empty)
+                    {
+                        break;
                     }
-                    Console.WriteLine("Please write a correct answer from the previous answers!");
+                    else if (input == "quit")
+                    {
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        break;
+                    }
+                    else if (!inputQuestionAndAnswers.Contains(input))
+                    {
+                        Console.WriteLine("Please write a correct answer from the previous answers!");
+                        break;
+                    }
+                    stateQuestionReading = CreateQuestionStateMachine.WantToReadTopic;
                     break;
+
 
                 case CreateQuestionStateMachine.WantToReadTopic:
                     Console.WriteLine("\nDo you want to add topic for your question? Yes or No");
                     inputWantTopic = Console.ReadLine();
-                    if (string.IsNullOrEmpty(inputWantTopic))
+                    /*if (string.IsNullOrEmpty(inputWantTopic))
                     {
                         Console.WriteLine("Write something please!");
                         break;
                     }
                     inputWantTopic = inputWantTopic.Trim().ToLower();
                     if (inputWantTopic == "quit")
+                    {
+                        stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
+                        break;
+                    }*/
+                    inputWantTopic = ValidateInputs.ValidateInputsIfEmptyOrQuit(inputWantTopic);
+                    inputWantTopic = inputWantTopic.ToLower();
+                    if (input == String.Empty)
+                    {
+                        break;
+                    }
+                    else if (input == "quit")
                     {
                         stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
@@ -204,7 +303,9 @@ internal class CreateQuestionCommand : ICommands
                     {
                         Console.WriteLine($"{allTopic.TopicId}: {allTopic.TopicName}");
                     }
-                    Console.WriteLine("\nWrite the id of the topic: ");
+                    inputTopicId = ConsoleHelper.ReadAndWrite("the id of the topic");
+                    inputTopicId = ValidateInputs.ValidateInputsIfEmptyOrQuit(inputTopicId);
+                    /*Console.WriteLine("\nWrite the id of the topic: ");
                     inputTopicId = Console.ReadLine();
 
                     if (string.IsNullOrEmpty(inputTopicId))
@@ -218,7 +319,7 @@ internal class CreateQuestionCommand : ICommands
                     {
                         stateQuestionReading = CreateQuestionStateMachine.QuitFromCreateQuestion;
                         break;
-                    }
+                    }*/
                     int.TryParse(inputTopicId, out wantedTopicId);
                     var topicEntity = dbManager.SelectTopic(wantedTopicId);
                     if (topicEntity != null)
@@ -231,13 +332,15 @@ internal class CreateQuestionCommand : ICommands
 
 
                 case CreateQuestionStateMachine.EverythingWasFineQuestionCreateWithTopic:
-                    dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, wantedTopicId);
+                    //dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, wantedTopicId);
+                    dbManager.CreateQuestion(inputQuestionAndAnswers[0], inputQuestionAndAnswers[1], inputQuestionAndAnswers[2], inputQuestionAndAnswers[3], inputQuestionAndAnswers[4], inputQuestionAndAnswers[5], wantedTopicId);
                     Console.WriteLine("\nCongratulations, you created a question!\n");
                     loopGoing = false;
                     break;
 
                 case CreateQuestionStateMachine.EverythingWasFineQuestionCreate:
-                    dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, null);
+                    //dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, null);
+                    dbManager.CreateQuestion(inputQuestionAndAnswers[0], inputQuestionAndAnswers[1], inputQuestionAndAnswers[2], inputQuestionAndAnswers[3], inputQuestionAndAnswers[4], inputQuestionAndAnswers[5], null);
                     Console.WriteLine("\nCongratulations, you created a question!\n");
                     loopGoing = false;
                     break;

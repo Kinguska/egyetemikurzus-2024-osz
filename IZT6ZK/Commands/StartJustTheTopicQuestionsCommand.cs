@@ -1,5 +1,7 @@
-﻿using IZT6ZK.Db;
+﻿using IZT6ZK.Assists;
+using IZT6ZK.Db;
 using IZT6ZK.Models;
+using IZT6ZK.Records;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,18 +22,40 @@ internal class StartJustTheTopicQuestionsCommand : ICommands
         bool outerLoopGoing = true;
         bool innerLoopGoing = true;
 
-        Console.WriteLine("\nWrite 'quit' if you want to quit this question.");
-        Console.WriteLine("Write 'quit all' if you want to quit all of the questions.");
+        var questionRecords = new List<QuestionRecordForStatistic>();
+
+        //Console.WriteLine("\nWrite 'quit' if you want to quit this question.");
+        //Console.WriteLine("Write 'quit all' if you want to quit all of the questions.");
+        ConsoleHelper.WriteQuit();
+        ConsoleHelper.WriteQuitAll();
 
         while (outerLoopGoing)
         {
-            Console.WriteLine("\nThe possible topics: ");
             var allTopics = dbManager.SelectAllTopic();
-            foreach (var allTopic in allTopics)
+            if (allTopics.Count == 0)
             {
-                Console.WriteLine($"{allTopic.TopicId}: {allTopic.TopicName}");
+                Console.WriteLine("There is no topic, sorry!");
+                break;
             }
-            Console.WriteLine("\nWrite the id of the topic: ");
+
+            ConsoleHelper.WriteOutAllTopics(allTopics);
+
+            inputTopicId = ConsoleHelper.ReadAndWrite("the id of the topic");
+            inputTopicId = ValidateInputs.ValidateInputsIfEmptyOrQuit(inputTopicId);
+
+            if (inputTopicId == string.Empty)
+            {
+                continue;
+            }
+            if (inputTopicId == "quit")
+            {
+                Console.WriteLine("You quitted\n");
+                outerLoopGoing = false;
+                break;
+            }
+
+
+            /*Console.WriteLine("\nWrite the id of the topic: ");
             inputTopicId = Console.ReadLine();
 
             if (string.IsNullOrEmpty(inputTopicId))
@@ -46,7 +70,7 @@ internal class StartJustTheTopicQuestionsCommand : ICommands
                 Console.WriteLine("You quitted\n");
                 outerLoopGoing = false;
                 break;
-            }
+            }*/
             int.TryParse(inputTopicId, out wantedTopicId);
             allQuestionsFromATopic = dbManager.SelectAllQuestionsFromOneTopic(wantedTopicId);
 
@@ -71,7 +95,7 @@ internal class StartJustTheTopicQuestionsCommand : ICommands
 
                     var inputAnswer = Console.ReadLine();
 
-                    if (string.IsNullOrEmpty(inputAnswer))
+                    /*if (string.IsNullOrEmpty(inputAnswer))
                     {
                         Console.WriteLine("Write something please!");
                         break;
@@ -94,9 +118,41 @@ internal class StartJustTheTopicQuestionsCommand : ICommands
                         Console.WriteLine("You quitted  all of the questions!\n");
                         outerLoopGoing = false;
                         break;
+                    }*/
+                    inputAnswer = ValidateInputs.ValidateInputsIfEmptyOrQuitOrQuitAll(inputAnswer);
+
+                    if (inputAnswer == string.Empty)
+                    {
+                        continue;
                     }
-                    Console.WriteLine("Incorrect answer, try again!\n");
-                    continue;
+                    if (inputAnswer == "quit")
+                    {
+                        Console.WriteLine("\nYou quitted the question!\n");
+                        break;
+                    }
+                    if (inputAnswer == "quit all")
+                    {
+                        Console.WriteLine("\nYou quitted  all of the questions!\n");
+                        innerLoopGoing = false;
+                        outerLoopGoing = false;
+                        break;
+                    }
+                    if (inputAnswer != question.Answer1 && inputAnswer != question.Answer2
+                    && inputAnswer != question.Answer3 && inputAnswer != question.Answer4)
+                    {
+                        Console.WriteLine("There is no such answer! Try again!");
+                        continue;
+                    }
+                    if (inputAnswer.Equals(question.CorrectAnswer))
+                    {
+                        Console.WriteLine("Correct answer!\n");
+                        questionRecords.Add(new QuestionRecordForStatistic(question.Question, question.CorrectAnswer, inputAnswer));
+                        break;
+                    }
+
+                    Console.WriteLine("Incorrect answer! You can try again after you finished this round.\n");
+                    questionRecords.Add(new QuestionRecordForStatistic(question.Question, question.CorrectAnswer, inputAnswer));
+                    break;
                 }
             }
             outerLoopGoing = false;
@@ -104,5 +160,19 @@ internal class StartJustTheTopicQuestionsCommand : ICommands
 
         }
         Console.WriteLine("End of the questions.\n");
+
+        Console.WriteLine("Your result: ");
+        var correctAnswers = questionRecords.Count(x => x.CorrectAnswer == x.UserAnswer);
+        var incorrectAnswers = questionRecords.Count(x => x.CorrectAnswer != x.UserAnswer);
+        var quitedQuestions = allQuestionsFromATopic.Count - questionRecords.Count;
+
+        foreach (var questionRecord in questionRecords)
+        {
+            Console.WriteLine(questionRecord.ToString());
+        }
+
+        Console.WriteLine($"\nNumber of correct answers: {correctAnswers}");
+        Console.WriteLine($"Number of incorrect answers: {incorrectAnswers}");
+        Console.WriteLine($"Number of quitted questions: {quitedQuestions}\n");
     }
 }

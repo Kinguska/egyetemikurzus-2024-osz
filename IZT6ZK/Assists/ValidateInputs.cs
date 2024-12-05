@@ -24,4 +24,26 @@ internal class ValidateInputs
         }
         return input;
     }
+
+    public static string ValidateInputsIfEmptyOrQuitOrQuitAll(string input)
+    {
+        if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
+        {
+            Console.WriteLine("Write something please!");
+            return String.Empty;
+        }
+
+        input = input.Trim();
+
+        if (input == "quit")
+        {
+            return "quit";
+        }
+        if (input == "quit all")
+        {
+            return "quit all";
+        }
+        return input;
+    }
+
 }

@@ -32,7 +32,17 @@ internal class ConsoleHelper
         {
             Console.WriteLine($"{allTopic.TopicId}: {allTopic.TopicName}");
         }
+        Console.WriteLine();
     }
 
+    public static void WriteOutAllQuestions(List<QuestionEntity> allQuestions)
+    {
+        Console.WriteLine("\nThe possible questions: ");
 
+        foreach (var allQuestion in allQuestions)
+        {
+            Console.WriteLine($"{allQuestion.QuestionId}: {allQuestion.Question}");
+        }
+        Console.WriteLine();
+    }
 }

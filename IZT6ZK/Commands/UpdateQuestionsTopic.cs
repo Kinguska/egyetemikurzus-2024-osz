@@ -1,4 +1,5 @@
-﻿using IZT6ZK.Db;
+﻿using IZT6ZK.Assists;
+using IZT6ZK.Db;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +13,20 @@ internal class UpdateQuestionsTopic : ICommands
     {
         var dbManager = new DbManager();
         string? inputQuestionId;
-        Console.WriteLine("\nWrite 'quit' if you want to quit.");
+
+        ConsoleHelper.WriteQuit();
 
         while (true)
         {
-            Console.WriteLine("\nThe possible questions: ");
             var allQuestions = dbManager.SelectAllQuestions();
-            foreach (var allQuestion in allQuestions)
+            if (allQuestions.Count == 0)
             {
-                Console.WriteLine($"{allQuestion.QuestionId}: {allQuestion.Question}");
+                Console.WriteLine("There is no question in the database!");
+                break;
             }
+            ConsoleHelper.WriteOutAllQuestions(allQuestions);
 
-            Console.WriteLine("\nWrite the question's id, you want to update: ");
+            /*Console.WriteLine("\nWrite the question's id, you want to update: ");
             inputQuestionId = Console.ReadLine();
 
             if (string.IsNullOrEmpty(inputQuestionId) || string.IsNullOrWhiteSpace(inputQuestionId))
@@ -37,19 +40,48 @@ internal class UpdateQuestionsTopic : ICommands
             {
                 Console.WriteLine("You quitted! \n");
                 break;
+            }*/
+            inputQuestionId = ConsoleHelper.ReadAndWrite("the question's id, you want to update");
+            inputQuestionId = ValidateInputs.ValidateInputsIfEmptyOrQuit(inputQuestionId);
+
+            if (inputQuestionId == String.Empty)
+            {
+                continue;
             }
+            if (inputQuestionId == "quit")
+            {
+                Console.WriteLine("You quitted!\n");
+                break;
+            }
+
             int.TryParse(inputQuestionId, out var questionId);
             var questionEntity = dbManager.SelectQuestion(questionId);
+
             if (questionEntity != null)
             {
-                Console.WriteLine("\nThe possible topics: ");
                 var allTopics = dbManager.SelectAllTopic();
-                foreach (var allTopic in allTopics)
+                if (allTopics.Count == 0)
                 {
-                    Console.WriteLine($"{allTopic.TopicId}: {allTopic.TopicName}");
+                    Console.WriteLine("There is no topic in the database!");
+                    break;
+                }
+                ConsoleHelper.WriteOutAllTopics(allTopics);
+
+                Console.WriteLine("You can write 'null' if you don't want to assign a topic to the question.");
+                var newTopicId = ConsoleHelper.ReadAndWrite("the new topic id");
+                newTopicId = ValidateInputs.ValidateInputsIfEmptyOrQuit(newTopicId);
+
+                if (newTopicId == String.Empty)
+                {
+                    continue;
+                }
+                if (newTopicId == "quit")
+                {
+                    Console.WriteLine("You quitted!\n");
+                    break;
                 }
 
-                Console.WriteLine("\nWrite the new topic id: ");
+                /*Console.WriteLine("\nWrite the new topic id: ");
                 Console.WriteLine("If you write 'null', then no topic will be assigned.");
                 var newTopicId = Console.ReadLine();
                 if (string.IsNullOrEmpty(newTopicId) || string.IsNullOrWhiteSpace(newTopicId))
@@ -61,7 +93,7 @@ internal class UpdateQuestionsTopic : ICommands
                 if (newTopicId == "quit") {
                     Console.WriteLine("You quitted! \n");
                     break;
-                }
+                }*/
                 if (newTopicId == "null")
                 {
                     questionEntity.TopicId = null;
@@ -69,8 +101,10 @@ internal class UpdateQuestionsTopic : ICommands
                     Console.WriteLine("\nCongratulations, you updated the question's topic!\n");
                     break;
                 }
+
                 int.TryParse(newTopicId, out var topicId);
                 var topicEntity = dbManager.SelectTopic(topicId);
+
                 if (topicEntity != null)
                 {
                     questionEntity.TopicId = topicId;

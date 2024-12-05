@@ -82,6 +82,7 @@ internal class CreateQuestionCommand : ICommands
                         Console.WriteLine("Please write something else than the other answers!");
                         break;
                     }
+                    inputQuestionAndAnswers.Add(input);
                     stateQuestionReading = CreateQuestionStateMachine.Answer3Reading;
                     break;
 
@@ -103,6 +104,7 @@ internal class CreateQuestionCommand : ICommands
                         Console.WriteLine("Please write something else than the other answers!");
                         break;
                     }
+                    inputQuestionAndAnswers.Add(input);
                     stateQuestionReading = CreateQuestionStateMachine.Answer4Reading;
                     break;
 
@@ -124,6 +126,7 @@ internal class CreateQuestionCommand : ICommands
                         Console.WriteLine("Please write something else than the other answers!");
                         break;
                     }
+                    inputQuestionAndAnswers.Add(input);
                     stateQuestionReading = CreateQuestionStateMachine.CorrectAnswerReading;
                     break;
 
@@ -145,6 +148,7 @@ internal class CreateQuestionCommand : ICommands
                         Console.WriteLine("Please write a correct answer from the previous answers!");
                         break;
                     }
+                    inputQuestionAndAnswers.Add(input);
                     stateQuestionReading = CreateQuestionStateMachine.WantToReadTopic;
                     break;
 

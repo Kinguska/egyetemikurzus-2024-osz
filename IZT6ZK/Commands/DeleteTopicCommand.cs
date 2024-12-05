@@ -1,4 +1,5 @@
-﻿using IZT6ZK.Db;
+﻿using IZT6ZK.Assists;
+using IZT6ZK.Db;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ internal class DeleteTopicCommand : ICommands
     {
         DbManager dbManager = new DbManager();
         string? inputTopicId;
-        Console.WriteLine("\nWrite 'quit' if you want to quit.");
+        
+        ConsoleHelper.WriteQuit();
 
         while (true)
         {
@@ -23,23 +25,21 @@ internal class DeleteTopicCommand : ICommands
                 Console.WriteLine($"{allTopic.TopicId}: {allTopic.TopicName}");
             }
 
-            Console.WriteLine("\nWrite the topic's id, you want to delete: ");
-            inputTopicId = Console.ReadLine();
+            inputTopicId = ConsoleHelper.ReadAndWrite("the topic's id, you want to delete");
+            inputTopicId = ValidateInputs.ValidateInputsIfEmptyOrQuit(inputTopicId);
 
-            if (string.IsNullOrEmpty(inputTopicId) || string.IsNullOrWhiteSpace(inputTopicId))
+            if (inputTopicId == String.Empty)
             {
-                Console.WriteLine("Write something please!");
                 continue;
             }
-            inputTopicId = inputTopicId.Trim();
-
             if (inputTopicId == "quit")
             {
-                Console.WriteLine("You quitted! \n");
+                Console.WriteLine("You quitted!\n");
                 break;
             }
             int.TryParse(inputTopicId, out var topicId);
             var topicEntity = dbManager.SelectTopic(topicId);
+
             if (topicEntity != null)
             {
                 Console.WriteLine("Are you sure? Yes or No");

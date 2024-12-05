@@ -2,6 +2,7 @@
 using System.Reflection.Metadata;
 
 using IZT6ZK;
+using IZT6ZK.Assists;
 using IZT6ZK.Commands;
 using IZT6ZK.Db;
 
@@ -16,7 +17,7 @@ internal class Program
             db.Database.Migrate();
         }
 
-        Console.WriteLine("Hello dear Visitor in our Quiz app!\n");
+        Console.WriteLine("Welcome dear Visitor in our Quiz app!\n");
         Console.WriteLine("You can make a question or check your knowledge.\n");
 
         HelpCommand helpCommand = new HelpCommand();
@@ -26,7 +27,7 @@ internal class Program
 
         while (true)
         {
-            //cw főkonzol
+            Console.WriteLine("Main Console, write your command: ");
             string? input = Console.ReadLine();
 
             try

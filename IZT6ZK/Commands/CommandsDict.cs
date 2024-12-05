@@ -10,9 +10,8 @@ internal class CommandsDict
 {
     public static Dictionary<string, ICommands> commandsDict = new Dictionary<string, ICommands>()
     {
-        //{"stop", new ExitCommand() },
-        {"exit", new ExitCommand() },
         {"help", new HelpCommand() },
+        {"exit", new ExitCommand() },
         {"start all", new StartAllQuestionsCommand() },
         {"start one topic", new StartJustTheTopicQuestionsCommand()},
         {"create question", new CreateQuestionCommand() },

@@ -1,4 +1,5 @@
-﻿using IZT6ZK.Db;
+﻿using IZT6ZK.Assists;
+using IZT6ZK.Db;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,52 +13,51 @@ internal class UpdateTopic : ICommands
     {
         var dbManager = new DbManager();
         string? inputTopic;
-        Console.WriteLine("\nWrite 'quit' if you want to quit.");
+        
+        ConsoleHelper.WriteQuit();
 
         while (true)
         {
-            Console.WriteLine("\nThe possible topics: ");
             var allTopics = dbManager.SelectAllTopic();
-            foreach (var allTopic in allTopics)
+            if (allTopics.Count == 0)
             {
-                Console.WriteLine($"{allTopic.TopicId}: {allTopic.TopicName}");
-            }
-
-            Console.WriteLine("\nWrite the topic's id, you want to update: ");
-            inputTopic = Console.ReadLine();
-
-            if (string.IsNullOrEmpty(inputTopic) || string.IsNullOrWhiteSpace(inputTopic))
-            {
-                Console.WriteLine("Write something please!");
-                continue;
-            }
-            inputTopic = inputTopic.Trim();
-
-            if (inputTopic == "quit")
-            {
-                Console.WriteLine("You quitted! \n");
+                Console.WriteLine("There is no topic in the database!");
                 break;
             }
+
+            ConsoleHelper.WriteOutAllTopics(allTopics);
+
+            inputTopic = ConsoleHelper.ReadAndWrite("the topic's id, you want to update");
+            inputTopic = ValidateInputs.ValidateInputsIfEmptyOrQuit(inputTopic);
+
+            if (inputTopic == String.Empty)
+            {
+                continue;
+            }
+            if (inputTopic == "quit")
+            {
+                Console.WriteLine("You quitted!\n");
+                break;
+            }
+
             int.TryParse(inputTopic, out var topicId);
             var topicEntity = dbManager.SelectTopic(topicId);
+
             if (topicEntity != null)
             {
-                Console.WriteLine("Write the new topic name: ");
-                var newTopicName = Console.ReadLine();
-                if (string.IsNullOrEmpty(newTopicName) || string.IsNullOrWhiteSpace(newTopicName))
+                var newTopicName = ConsoleHelper.ReadAndWrite("the new topic name");
+                newTopicName = ValidateInputs.ValidateInputsIfEmptyOrQuit(newTopicName);
+                if (newTopicName == String.Empty)
                 {
-                    Console.WriteLine("Write something please!");
                     continue;
                 }
-                newTopicName = newTopicName.Trim();
-
                 if (newTopicName == "quit")
                 {
-                    Console.WriteLine("You quitted! \n");
+                    Console.WriteLine("You quitted!\n");
                     break;
                 }
-
-                if (allTopics.FirstOrDefault(x => x.TopicName.ToLower() == newTopicName.ToLower()) is not null && topicEntity.TopicName.ToLower() != newTopicName.ToLower())
+                if (allTopics.FirstOrDefault(x => x.TopicName.ToLower() == newTopicName.ToLower()) is not null 
+                    && topicEntity.TopicName.ToLower() != newTopicName.ToLower())
                 {
                     Console.WriteLine("\nThis topic already exists!");
                     continue;

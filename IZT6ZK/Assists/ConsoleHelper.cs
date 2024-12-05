@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IZT6ZK.Db;
+using IZT6ZK.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,4 +23,16 @@ internal class ConsoleHelper
         var input = Console.ReadLine();
         return input ?? "";
     }
+
+    public static void WriteOutAllTopics(List<TopicEntity> allTopics)
+    {
+        Console.WriteLine("\nThe possible topics: ");
+
+        foreach (var allTopic in allTopics)
+        {
+            Console.WriteLine($"{allTopic.TopicId}: {allTopic.TopicName}");
+        }
+    }
+
+
 }

@@ -15,6 +15,6 @@ internal class HelpCommand : ICommands
         {
             Console.Write($"{command} | ");
         }
-        Console.WriteLine();
+        Console.WriteLine("\n");
     }
 }

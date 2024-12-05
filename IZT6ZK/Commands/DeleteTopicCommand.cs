@@ -18,12 +18,15 @@ internal class DeleteTopicCommand : ICommands
 
         while (true)
         {
-            Console.WriteLine("\nThe possible topics: ");
             var allTopics = dbManager.SelectAllTopic();
-            foreach (var allTopic in allTopics)
+            
+            if (allTopics.Count == 0)
             {
-                Console.WriteLine($"{allTopic.TopicId}: {allTopic.TopicName}");
+                Console.WriteLine("There are no topics in the database!\n");
+                break;
             }
+
+            ConsoleHelper.WriteOutAllTopics(allTopics);
 
             inputTopicId = ConsoleHelper.ReadAndWrite("the topic's id, you want to delete");
             inputTopicId = ValidateInputs.ValidateInputsIfEmptyOrQuit(inputTopicId);
@@ -37,6 +40,7 @@ internal class DeleteTopicCommand : ICommands
                 Console.WriteLine("You quitted!\n");
                 break;
             }
+
             int.TryParse(inputTopicId, out var topicId);
             var topicEntity = dbManager.SelectTopic(topicId);
 

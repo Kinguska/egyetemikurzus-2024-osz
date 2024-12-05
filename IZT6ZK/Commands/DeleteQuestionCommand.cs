@@ -18,14 +18,16 @@ internal class DeleteQuestionCommand : ICommands
 
         while (true)
         {
-            Console.WriteLine("\nThe possible questions: ");
             var allQuestions = dbManager.SelectAllQuestions();
 
-            foreach (var allQuestion in allQuestions)
+            if (allQuestions.Count == 0)
             {
-                Console.WriteLine($"{allQuestion.QuestionId}: {allQuestion.Question}");
+                Console.WriteLine("There are no questions in the database!\n");
+                break;
             }
-            
+
+            ConsoleHelper.WriteOutAllQuestions(allQuestions);
+
             inputQuestionId = ConsoleHelper.ReadAndWrite("the question's id, you want to delete");
             inputQuestionId = ValidateInputs.ValidateInputsIfEmptyOrQuit(inputQuestionId);
 
@@ -58,7 +60,7 @@ internal class DeleteQuestionCommand : ICommands
                     Console.WriteLine("\nCongratulations, you deleted the question!\n");
                     break;
                 }
-                else 
+                else
                 {
                     Console.WriteLine("Please write 'yes' or 'no'!");
                     continue;

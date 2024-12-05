@@ -1,5 +1,6 @@
 ﻿using IZT6ZK.Db;
 using IZT6ZK.Models;
+using IZT6ZK.Records;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ internal class ConsoleHelper
     }
     public static string ReadAndWrite(string whatWeWantToAskFromUser)
     {
-        Console.WriteLine($"Write {whatWeWantToAskFromUser}: ");
+        Console.WriteLine($"\nWrite {whatWeWantToAskFromUser}: ");
         var input = Console.ReadLine();
         return input ?? "";
     }
@@ -32,7 +33,6 @@ internal class ConsoleHelper
         {
             Console.WriteLine($"{allTopic.TopicId}: {allTopic.TopicName}");
         }
-        Console.WriteLine();
     }
 
     public static void WriteOutAllQuestions(List<QuestionEntity> allQuestions)
@@ -43,6 +43,22 @@ internal class ConsoleHelper
         {
             Console.WriteLine($"{allQuestion.QuestionId}: {allQuestion.Question}");
         }
-        Console.WriteLine();
+    }
+
+    public static void WriteOutTheResultOfTheQuiz(List<QuestionRecordForStatistic> questionRecords, List<QuestionEntity> allQuestions)
+    {
+        Console.WriteLine("Your result: ");
+        var correctAnswers = questionRecords.Count(x => x.CorrectAnswer == x.UserAnswer);
+        var incorrectAnswers = questionRecords.Count(x => x.CorrectAnswer != x.UserAnswer);
+        var quitedQuestions = allQuestions.Count - questionRecords.Count;
+
+        foreach (var questionRecord in questionRecords)
+        {
+            Console.WriteLine(questionRecord.ToString());
+        }
+
+        Console.WriteLine($"\nNumber of correct answers: {correctAnswers}");
+        Console.WriteLine($"Number of incorrect answers: {incorrectAnswers}");
+        Console.WriteLine($"Number of quitted questions: {quitedQuestions}\n");
     }
 }

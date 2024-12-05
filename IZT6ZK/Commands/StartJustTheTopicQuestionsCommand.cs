@@ -17,21 +17,19 @@ internal class StartJustTheTopicQuestionsCommand : ICommands
         string? inputTopicId = null;
         int wantedTopicId = 0;
 
-
         List<QuestionEntity> allQuestionsFromATopic = new List<QuestionEntity>();
         bool outerLoopGoing = true;
         bool innerLoopGoing = true;
 
         var questionRecords = new List<QuestionRecordForStatistic>();
 
-        //Console.WriteLine("\nWrite 'quit' if you want to quit this question.");
-        //Console.WriteLine("Write 'quit all' if you want to quit all of the questions.");
         ConsoleHelper.WriteQuit();
         ConsoleHelper.WriteQuitAll();
 
         while (outerLoopGoing)
         {
             var allTopics = dbManager.SelectAllTopic();
+
             if (allTopics.Count == 0)
             {
                 Console.WriteLine("There is no topic, sorry!");
@@ -54,23 +52,6 @@ internal class StartJustTheTopicQuestionsCommand : ICommands
                 break;
             }
 
-
-            /*Console.WriteLine("\nWrite the id of the topic: ");
-            inputTopicId = Console.ReadLine();
-
-            if (string.IsNullOrEmpty(inputTopicId))
-            {
-                Console.WriteLine("Write something please!");
-                break;
-            }
-            inputTopicId = inputTopicId.Trim();
-
-            if (inputTopicId == "quit")
-            {
-                Console.WriteLine("You quitted\n");
-                outerLoopGoing = false;
-                break;
-            }*/
             int.TryParse(inputTopicId, out wantedTopicId);
             allQuestionsFromATopic = dbManager.SelectAllQuestionsFromOneTopic(wantedTopicId);
 
@@ -82,9 +63,8 @@ internal class StartJustTheTopicQuestionsCommand : ICommands
 
             if (allQuestionsFromATopic.Count == 0)
             {
-                Console.WriteLine("Sadly there is no question in this topic!");
-                outerLoopGoing = false;
-                break;
+                Console.WriteLine("Sadly there is no question in this topic!\n");
+                continue;
             }
 
             foreach (var question in allQuestionsFromATopic)
@@ -94,31 +74,6 @@ internal class StartJustTheTopicQuestionsCommand : ICommands
                     Console.WriteLine(question.ToString());
 
                     var inputAnswer = Console.ReadLine();
-
-                    /*if (string.IsNullOrEmpty(inputAnswer))
-                    {
-                        Console.WriteLine("Write something please!");
-                        break;
-                    }
-                    inputAnswer = inputAnswer.Trim();
-
-                    if (inputAnswer.Equals(question.CorrectAnswer))
-                    {
-                        Console.WriteLine("Correct answer!\n");
-                        innerLoopGoing = false;
-                        break;
-                    }
-                    if (inputAnswer == "quit")
-                    {
-                        Console.WriteLine("You quitted the question!\n");
-                        break;
-                    }
-                    if (inputAnswer == "quit all")
-                    {
-                        Console.WriteLine("You quitted  all of the questions!\n");
-                        outerLoopGoing = false;
-                        break;
-                    }*/
                     inputAnswer = ValidateInputs.ValidateInputsIfEmptyOrQuitOrQuitAll(inputAnswer);
 
                     if (inputAnswer == string.Empty)
@@ -159,20 +114,11 @@ internal class StartJustTheTopicQuestionsCommand : ICommands
             break;
 
         }
-        Console.WriteLine("End of the questions.\n");
-
-        Console.WriteLine("Your result: ");
-        var correctAnswers = questionRecords.Count(x => x.CorrectAnswer == x.UserAnswer);
-        var incorrectAnswers = questionRecords.Count(x => x.CorrectAnswer != x.UserAnswer);
-        var quitedQuestions = allQuestionsFromATopic.Count - questionRecords.Count;
-
-        foreach (var questionRecord in questionRecords)
+        if (questionRecords.Count == 0)
         {
-            Console.WriteLine(questionRecord.ToString());
+            return;
         }
-
-        Console.WriteLine($"\nNumber of correct answers: {correctAnswers}");
-        Console.WriteLine($"Number of incorrect answers: {incorrectAnswers}");
-        Console.WriteLine($"Number of quitted questions: {quitedQuestions}\n");
+        Console.WriteLine("End of the questions.\n");
+        ConsoleHelper.WriteOutTheResultOfTheQuiz(questionRecords, allQuestionsFromATopic);
     }
 }

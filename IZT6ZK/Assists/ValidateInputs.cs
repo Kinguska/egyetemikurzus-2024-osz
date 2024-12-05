@@ -45,5 +45,4 @@ internal class ValidateInputs
         }
         return input;
     }
-
 }

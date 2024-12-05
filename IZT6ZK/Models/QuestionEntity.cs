@@ -18,7 +18,6 @@ internal class QuestionEntity
     public TopicEntity? Topic { get; set; }
     public int? TopicId { get; set; }
 
-
     public override string ToString()
     {
         return $"{Question}\n- {Answer1}\n- {Answer2}\n- {Answer3}\n- {Answer4}\n";

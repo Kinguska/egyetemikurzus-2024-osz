@@ -19,6 +19,7 @@ internal class UpdateTopic : ICommands
         while (true)
         {
             var allTopics = dbManager.SelectAllTopic();
+
             if (allTopics.Count == 0)
             {
                 Console.WriteLine("There is no topic in the database!");
@@ -47,6 +48,7 @@ internal class UpdateTopic : ICommands
             {
                 var newTopicName = ConsoleHelper.ReadAndWrite("the new topic name");
                 newTopicName = ValidateInputs.ValidateInputsIfEmptyOrQuit(newTopicName);
+
                 if (newTopicName == String.Empty)
                 {
                     continue;

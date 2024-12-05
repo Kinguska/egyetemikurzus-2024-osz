@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace IZT6ZK.Records;
-//public record QuestionRecordForStatistic(string Question, string CorrectAnswer, string UserAnswer);
 public record QuestionRecordForStatistic
 {
     public string Question { get; init; }

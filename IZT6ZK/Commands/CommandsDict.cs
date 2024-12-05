@@ -21,5 +21,4 @@ internal class CommandsDict
         {"delete question", new DeleteQuestionCommand() },
         {"delete topic", new DeleteTopicCommand() },
     };
-
 }

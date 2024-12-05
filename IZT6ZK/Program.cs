@@ -37,7 +37,8 @@ internal class Program
             }
             catch
             {
-                Console.WriteLine("No such command exists! Try again! (Write 'help', if you want to see the commands!)");
+                Console.WriteLine("No such command exists! Try again! " +
+                    "(Write 'help', if you want to see the commands!)");
             }
         }
     }

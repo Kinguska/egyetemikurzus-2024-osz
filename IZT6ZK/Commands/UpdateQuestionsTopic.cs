@@ -19,6 +19,7 @@ internal class UpdateQuestionsTopic : ICommands
         while (true)
         {
             var allQuestions = dbManager.SelectAllQuestions();
+
             if (allQuestions.Count == 0)
             {
                 Console.WriteLine("There is no question in the database!");
@@ -26,21 +27,6 @@ internal class UpdateQuestionsTopic : ICommands
             }
             ConsoleHelper.WriteOutAllQuestions(allQuestions);
 
-            /*Console.WriteLine("\nWrite the question's id, you want to update: ");
-            inputQuestionId = Console.ReadLine();
-
-            if (string.IsNullOrEmpty(inputQuestionId) || string.IsNullOrWhiteSpace(inputQuestionId))
-            {
-                Console.WriteLine("Write something please!");
-                continue;
-            }
-            inputQuestionId = inputQuestionId.Trim();
-
-            if (inputQuestionId == "quit")
-            {
-                Console.WriteLine("You quitted! \n");
-                break;
-            }*/
             inputQuestionId = ConsoleHelper.ReadAndWrite("the question's id, you want to update");
             inputQuestionId = ValidateInputs.ValidateInputsIfEmptyOrQuit(inputQuestionId);
 
@@ -60,6 +46,7 @@ internal class UpdateQuestionsTopic : ICommands
             if (questionEntity != null)
             {
                 var allTopics = dbManager.SelectAllTopic();
+
                 if (allTopics.Count == 0)
                 {
                     Console.WriteLine("There is no topic in the database!");
@@ -79,21 +66,7 @@ internal class UpdateQuestionsTopic : ICommands
                 {
                     Console.WriteLine("You quitted!\n");
                     break;
-                }
-
-                /*Console.WriteLine("\nWrite the new topic id: ");
-                Console.WriteLine("If you write 'null', then no topic will be assigned.");
-                var newTopicId = Console.ReadLine();
-                if (string.IsNullOrEmpty(newTopicId) || string.IsNullOrWhiteSpace(newTopicId))
-                {
-                    Console.WriteLine("Write something please!");
-                    continue;
-                }
-                newTopicId = newTopicId.Trim();
-                if (newTopicId == "quit") {
-                    Console.WriteLine("You quitted! \n");
-                    break;
-                }*/
+                }                
                 if (newTopicId == "null")
                 {
                     questionEntity.TopicId = null;
@@ -117,7 +90,6 @@ internal class UpdateQuestionsTopic : ICommands
             }
             Console.WriteLine("Please write an existing question id!");
             continue;
-
         }
     }
 }

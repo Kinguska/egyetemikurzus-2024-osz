@@ -208,14 +208,12 @@ internal class CreateQuestionCommand : ICommands
 
 
                 case CreateQuestionStateMachine.EverythingWasFineQuestionCreateWithTopic:
-                    //dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, wantedTopicId);
                     dbManager.CreateQuestion(inputQuestionAndAnswers[0], inputQuestionAndAnswers[1], inputQuestionAndAnswers[2], inputQuestionAndAnswers[3], inputQuestionAndAnswers[4], inputQuestionAndAnswers[5], wantedTopicId);
                     Console.WriteLine("\nCongratulations, you created a question!\n");
                     loopGoing = false;
                     break;
 
                 case CreateQuestionStateMachine.EverythingWasFineQuestionCreate:
-                    //dbManager.CreateQuestion(inputQuestion, inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputCorrectAnswer, null);
                     dbManager.CreateQuestion(inputQuestionAndAnswers[0], inputQuestionAndAnswers[1], inputQuestionAndAnswers[2], inputQuestionAndAnswers[3], inputQuestionAndAnswers[4], inputQuestionAndAnswers[5], null);
                     Console.WriteLine("\nCongratulations, you created a question!\n");
                     loopGoing = false;

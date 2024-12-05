@@ -17,7 +17,6 @@ internal class MyDbContext : DbContext
     public MyDbContext()
     {
     }
-
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options
             .UseSqlite($"Data Source=questions.db");
